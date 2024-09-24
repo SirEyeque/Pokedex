@@ -1,7 +1,7 @@
 package main
 
 import(
-	"github.com/SirEyeque/readJSON"
+	"github.com/SirEyeque/internal/readJSON"
 	"encoding/json"
 	"log"
 	"fmt"
