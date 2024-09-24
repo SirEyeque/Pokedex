@@ -55,12 +55,12 @@ func getCommands() map[string]cliCmd {
 		},
 		"map": {
 			name:			"map",
-			description:	"Returns the map.",
+			description:	"Returns the next 20 map locations",
 			callback: 		commandMap,
 		},
 		"mapb": {
 			name:			"mapb",
-			description:	"Exits the Pokedex command line interface and returns you to your terminal.",
+			description:	"Returns the previous 20 map locations",
 			callback: 		commandMapb,
 		},
 	}
@@ -83,10 +83,7 @@ func REPL() {
 
 	var usrInput string
 
-	urls := config{
-		next:  "",
-		prev:  "",
-	}
+	urls := config{}
 
 	cmds := getCommands()
 

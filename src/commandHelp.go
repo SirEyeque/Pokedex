@@ -1,7 +1,7 @@
 package main
 
 import(
-	"fmt";
+	"fmt"
 )
 
 
@@ -14,19 +14,13 @@ import(
 *				the Pokedex commands
 */
 func commandHelp(urls * config) error{
-	note := `
-Enter in any of the following commands to the Pokedex commandline.
-Commands are NOT case sensitive.
+	
+	cmds := getCommands()
 
-Map: 	Prints out 20 map locations	
-		Each subsequent Map call will print out the next 20 map locations
-Mapb: 	Prints out the previous 20 map locations
+	for _, item := range cmds{
+		fmt.Printf("%s:\t\t%s\n", item.name, item.description)
+	}
 
-Help: 	Prints a help message
-Exit: 	Exits Pokedex and returns you to the terminal
-
-`
-	fmt.Print(note)
 	return nil
 }
 
