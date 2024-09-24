@@ -61,7 +61,7 @@ func getCommands() map[string]cliCmd {
 		"mapb": {
 			name:			"mapb",
 			description:	"Exits the Pokedex command line interface and returns you to your terminal.",
-			callback: 		commandMap,
+			callback: 		commandMapb,
 		},
 	}
 }
