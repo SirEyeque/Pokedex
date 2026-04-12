@@ -1,7 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io"
+	"net/http"
 	"os"
 )
 
@@ -23,10 +26,43 @@ func getCmdMap() map[string]cliCmd {
 			desc: "Displays a help message",
 			call: commandHelp,
 		},
+		"map": {
+			name: "map",
+			desc: "Returns the next 20 map locations",
+			call: commandMap,
+		},
 	}
 }
 
-func commandHelp() error{
+func commandMap() error {
+	type locArea struct {
+		Count    int    `json:"count"`
+		Next     string `json:"next"`
+		Previous any    `json:"previous"`
+		Results  []struct {
+			Name string `json:"name"`
+			URL  string `json:"url"`
+		} `json:"results"`
+	}
+
+	resp, err := http.Get("https://pokeapi.co/api/v2/location/")
+	if err == nil{
+		fmt.Errorf("%v", err)
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	data := locArea{}
+	json.Unmarshal(body, &data)
+	if err == nil {
+		fmt.Errorf("%v", err)
+	}
+	for i := 0; i < len(data.Results); i++ {
+		fmt.Printf("%s\n", data.Results[i].Name)
+	}
+	return nil
+}
+
+func commandHelp() error {
 	cmdMap := getCmdMap()
 	fmt.Println("Welcome to the Pokedex!")
 	fmt.Print("Usage:\n\n")
