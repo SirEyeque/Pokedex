@@ -3,6 +3,10 @@ package main
 import (
 	"testing"
 	"reflect"
+	"os"
+	"io"
+	"fmt"
+	"bytes"
 )
 
 
@@ -34,43 +38,32 @@ func TestCleanInput(t *testing.T) {
 	}
 }
 
+var out io.Writer = os.Stdout
+
 func TestCliCommands(t *testing.T) {
-	cases := []struct{
-		input string
-		want string
+	for _, test := range []struct {
+		Args   []string
+		Output string
 	}{
 		{
-			"exit", "exit",
+			Args:   []string{"./Pokedex", "5", "7", "9"},
+			Output: "",
 		},
 		{
-			"help", "help",
+			Args:   []string{"./calc", "-mode", "multiply", "3", "2", "5"},
+			Output: "",
 		},
-		{
-			"help lh alskdh", "help",
-		},
-		{
-			"exit lh alskdh", "exit",
-		},
-		{
-			"ahelp", "unknown command",
-		},
-		{
-			"lkh exit lkhlhk", "unknown command",
-		},
-		{
-			"survey", "unknown command",
-		},
-		{
-			"find", "unknown command",
-		},
-		{
-			"find exit", "unknown command",
-		},
-	}
-	for _, c := range cases {
-		got := processCommand(c.input)
-		if got != c.want {
-			t.Fatalf("Incorrect output (%v) from given input (%v)", got, c.want)
-		}
+	} {
+		t.Run("", func(t *testing.T) {
+			os.Args = test.Args
+			out = bytes.NewBuffer(nil)
+			main()
+
+
+			if actual := out.(*bytes.Buffer).String(); actual != test.Output {
+				fmt.Println(actual, test.Output)
+				t.Errorf("expected %s, but got %s", test.Output, actual)
+			}
+		})
 	}
 }

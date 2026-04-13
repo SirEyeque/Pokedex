@@ -1,17 +1,20 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
-	"net/http"
 	"os"
+	"github.com/sireyeque/internal/apireq"
 )
+
+type navURL struct{
+		Next string
+		Prev any
+	}
 
 type cliCmd struct {
 	name string
 	desc string
-	call func() error
+	call func(nav *navURL) error
 }
 
 func getCmdMap() map[string]cliCmd {
@@ -31,38 +34,45 @@ func getCmdMap() map[string]cliCmd {
 			desc: "Returns the next 20 map locations",
 			call: commandMap,
 		},
+		"mapb": {
+			name: "mapb",
+			desc: "Returns the previous 20 map locations",
+			call: commandMapB,
+		},
 	}
 }
 
-func commandMap() error {
-	type locArea struct {
-		Count    int    `json:"count"`
-		Next     string `json:"next"`
-		Previous any    `json:"previous"`
-		Results  []struct {
-			Name string `json:"name"`
-			URL  string `json:"url"`
-		} `json:"results"`
+func commandMapB(nav *navURL) error {
+	if nav.Prev == nil {
+		fmt.Printf("You're on the first page\n")
+		return fmt.Errorf("You're on the first page\n")
 	}
+	data := apireq.RecieveLocArea(nav.Prev.(string))
 
-	resp, err := http.Get("https://pokeapi.co/api/v2/location/")
-	if err == nil{
-		fmt.Errorf("%v", err)
-	}
+	nav.Next = data.Next
+	nav.Prev = data.Previous
 
-	body, err := io.ReadAll(resp.Body)
-	data := locArea{}
-	json.Unmarshal(body, &data)
-	if err == nil {
-		fmt.Errorf("%v", err)
-	}
+	// set data from Get request
 	for i := 0; i < len(data.Results); i++ {
 		fmt.Printf("%s\n", data.Results[i].Name)
 	}
 	return nil
 }
 
-func commandHelp() error {
+func commandMap(nav *navURL) error {
+	data := apireq.RecieveLocArea(nav.Next)
+
+	nav.Next = data.Next
+	nav.Prev = data.Previous
+
+	// set data from Get request
+	for i := 0; i < len(data.Results); i++ {
+		fmt.Printf("%s\n", data.Results[i].Name)
+	}
+	return nil
+}
+
+func commandHelp(nav *navURL) error {
 	cmdMap := getCmdMap()
 	fmt.Println("Welcome to the Pokedex!")
 	fmt.Print("Usage:\n\n")
@@ -72,7 +82,7 @@ func commandHelp() error {
 	return nil
 }
 
-func commandExit() error {
+func commandExit(nav *navURL) error {
 	fmt.Println("Closing the Pokedex... Goodbye!")
 	os.Exit(0)
 	return nil
