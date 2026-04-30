@@ -8,7 +8,7 @@ import (
 )
 
 // JSON structure of poke API Get request
-type LocArea struct {
+type locArea struct {
 	Count    int    `json:"count"`
 	Next     string `json:"next"`
 	Previous any    `json:"previous"`
@@ -18,7 +18,7 @@ type LocArea struct {
 	} `json:"results"`
 }
 
-func RecieveLocArea(pokeUrl string) LocArea {
+func RecieveLocArea(pokeUrl string) locArea {
 	// Issue Get request
 	resp, err := http.Get(pokeUrl)
 	if err == nil{
@@ -27,7 +27,7 @@ func RecieveLocArea(pokeUrl string) LocArea {
 
 	// Receive and check data from Get request
 	body, err := io.ReadAll(resp.Body)
-	data := LocArea{}
+	data := locArea{}
 	json.Unmarshal(body, &data)
 	if err == nil {
 		fmt.Errorf("%v", err)

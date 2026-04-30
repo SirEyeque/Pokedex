@@ -1,0 +1,38 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Add	internal/pokecache/pokecache.go	/^func Add(c *Cache, key string, val []byte) {$/;"	f
+Cache	internal/pokecache/pokecache.go	/^type Cache struct {$/;"	t
+CacheEntry	internal/pokecache/pokecache.go	/^type CacheEntry struct {$/;"	t
+CleanInput	src/repl.go	/^func CleanInput(test string) []string {$/;"	f
+Get	internal/pokecache/pokecache.go	/^func Get(c *Cache, key string) ([]byte, bool) {$/;"	f
+LocArea	internal/apireq/apireq/apireq.go	/^type LocArea struct {$/;"	t
+NewCache	internal/pokecache/pokecache.go	/^func NewCache(interval time.Duration) *Cache {$/;"	f
+REPL	src/repl.go	/^func REPL() {$/;"	f
+ReapLoop	internal/pokecache/pokecache.go	/^func (c *Cache) ReapLoop(interval time.Duration) {$/;"	f
+RecieveLocArea	internal/apireq/apireq/apireq.go	/^func RecieveLocArea(pokeUrl string) LocArea {$/;"	f
+TestCleanInput	src/repl_test.go	/^func TestCleanInput(t *testing.T) {$/;"	f
+TestCliCommands	src/repl_test.go	/^func TestCliCommands(t *testing.T) {$/;"	f
+apireq	internal/apireq/apireq.go	/^package apireq$/;"	p
+apireq	internal/apireq/apireq/apireq.go	/^package apireq$/;"	p
+apireq	internal/apireq/apireq/apireq_test.go	/^package apireq$/;"	p
+apireq	internal/apireq/apireq_test.go	/^package apireq$/;"	p
+cliCmd	src/cli_cmd.go	/^type cliCmd struct {$/;"	t
+commandExit	src/cli_cmd.go	/^func commandExit(nav *navURL) error {$/;"	f
+commandHelp	src/cli_cmd.go	/^func commandHelp(nav *navURL) error {$/;"	f
+commandMap	src/cli_cmd.go	/^func commandMap(nav *navURL) error {$/;"	f
+commandMapB	src/cli_cmd.go	/^func commandMapB(nav *navURL) error {$/;"	f
+getCmdMap	src/cli_cmd.go	/^func getCmdMap() map[string]cliCmd {$/;"	f
+locArea	internal/apireq/apireq.go	/^type locArea struct {$/;"	t
+main	src/cli_cmd.go	/^package main$/;"	p
+main	src/main.go	/^func main() {$/;"	f
+main	src/main.go	/^package main$/;"	p
+main	src/repl.go	/^package main$/;"	p
+main	src/repl_test.go	/^package main$/;"	p
+navURL	src/cli_cmd.go	/^type navURL struct{$/;"	t
+out	src/repl_test.go	/^var out io.Writer = os.Stdout$/;"	v
+pokecache	internal/pokecache/pokecache.go	/^package pokecache$/;"	p
+recieveLocArea	internal/apireq/apireq.go	/^func recieveLocArea(pokeUrl string) locArea {$/;"	f

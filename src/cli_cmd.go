@@ -3,7 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
-	"github.com/sireyeque/internal/apireq"
+	"github.com/sireyeque/Pokedex/internal/apireq"
+	"github.com/sireyeque/Pokedex/internal/pokecache"
 )
 
 type navURL struct{
@@ -14,7 +15,7 @@ type navURL struct{
 type cliCmd struct {
 	name string
 	desc string
-	call func(nav *navURL) error
+	call func(c *pokecache.Cache, nav *navURL) error
 }
 
 func getCmdMap() map[string]cliCmd {
@@ -42,7 +43,7 @@ func getCmdMap() map[string]cliCmd {
 	}
 }
 
-func commandMapB(nav *navURL) error {
+func commandMapB(c *pokecache.Cache, nav *navURL) error {
 	if nav.Prev == nil {
 		fmt.Printf("You're on the first page\n")
 		return fmt.Errorf("You're on the first page\n")
@@ -59,7 +60,7 @@ func commandMapB(nav *navURL) error {
 	return nil
 }
 
-func commandMap(nav *navURL) error {
+func commandMap(c *pokecache.Cache, nav *navURL) error {
 	data := apireq.RecieveLocArea(nav.Next)
 
 	nav.Next = data.Next
@@ -72,7 +73,7 @@ func commandMap(nav *navURL) error {
 	return nil
 }
 
-func commandHelp(nav *navURL) error {
+func commandHelp(c *pokecache.Cache, nav *navURL) error {
 	cmdMap := getCmdMap()
 	fmt.Println("Welcome to the Pokedex!")
 	fmt.Print("Usage:\n\n")
@@ -82,7 +83,7 @@ func commandHelp(nav *navURL) error {
 	return nil
 }
 
-func commandExit(nav *navURL) error {
+func commandExit(c *pokecache.Cache, nav *navURL) error {
 	fmt.Println("Closing the Pokedex... Goodbye!")
 	os.Exit(0)
 	return nil
