@@ -1,8 +1,8 @@
 package pokecache
 
 import (
-	"time"
 	"sync"
+	"time"
 )
 
 type CacheEntry struct {
@@ -42,14 +42,14 @@ func (c *Cache) Get(key string) ([]byte, bool) {
 }
 
 func (c *Cache) ReapLoop(interval time.Duration) {
-	c.m.Lock()
-	defer c.m.Unlock()
 	ticker := time.NewTicker(interval)
 	for range ticker.C {
+		c.m.Lock()
 		for key, value := range c.cmap {
 			if time.Since(value.createdAt) > interval {
 				delete(c.cmap, key)
 			}
 		}
+		c.m.Unlock()
 	}
 }

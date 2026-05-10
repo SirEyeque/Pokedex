@@ -8,9 +8,9 @@ import (
 )
 
 type navURL struct{
-		Next string
-		Prev any
-	}
+	Next string
+	Prev any
+}
 
 type cliCmd struct {
 	name string
@@ -48,7 +48,12 @@ func commandMapB(c *pokecache.Cache, nav *navURL) error {
 		fmt.Printf("You're on the first page\n")
 		return fmt.Errorf("You're on the first page\n")
 	}
-	data := apireq.RecieveLocArea(nav.Prev.(string))
+	body, ok := c.Get(nav.Prev.(string))
+	if !ok {
+		body = apireq.RecieveLocArea(nav.Prev.(string))
+		c.Add(nav.Prev.(string), body)
+	}
+	data := apireq.PullData(body)
 
 	nav.Next = data.Next
 	nav.Prev = data.Previous
@@ -61,7 +66,12 @@ func commandMapB(c *pokecache.Cache, nav *navURL) error {
 }
 
 func commandMap(c *pokecache.Cache, nav *navURL) error {
-	data := apireq.RecieveLocArea(nav.Next)
+	body, ok := c.Get(nav.Next)
+	if !ok {
+		body = apireq.RecieveLocArea(nav.Next)
+		c.Add(nav.Next, body)
+	}
+	data := apireq.PullData(body)
 
 	nav.Next = data.Next
 	nav.Prev = data.Previous
