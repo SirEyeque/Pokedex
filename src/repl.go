@@ -17,6 +17,8 @@ func CleanInput(test string) []string {
 
 func REPL() {
 	var nav navURL
+	loc_endpoint := "https://pokeapi.co/api/v2/location-area/" 
+	pokemon_endpoint := "https://pokeapi.co/api/v2/pokemon/" 
 	nav.Next = "https://pokeapi.co/api/v2/location-area/"
 	nav.Prev = ""
 	scanner := bufio.NewScanner(os.Stdin)
@@ -32,7 +34,19 @@ func REPL() {
 		cmdMap := getCmdMap()
 		if len(userInput) > 0 {
 			if val, ok := cmdMap[userInput[0]]; ok {
-				val.call(c, &nav)
+				if userInput[0] == "explore" && len(userInput) > 1 {
+					ex_nav := navURL{}
+					ex_nav.Next = loc_endpoint + userInput[1]
+					ex_nav.Prev = nil
+					val.call(c, &ex_nav)
+				} else if userInput[0] == "catch" && len(userInput) > 1 {
+					pok_nav := navURL{}
+					pok_nav.Next = pokemon_endpoint + userInput[1]
+					pok_nav.Prev = nil
+					val.call(c, &pok_nav)
+				} else {
+					val.call(c, &nav)
+				}
 			} else {
 				fmt.Println("Unknown command")
 			}
